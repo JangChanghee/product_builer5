@@ -1,1 +1,76 @@
-/* Add styles here */
+:root {
+  --primary-color: #5e72e4;
+  --secondary-color: #f5365c;
+  --background-start: #f5f7fa;
+  --background-end: #c3cfe2;
+  --text-color: #32325d;
+  --white-color: #fff;
+  --shadow-color: rgba(0, 0, 0, 0.15);
+}
+
+body[data-theme='dark'] {
+  --primary-color: #889eff;
+  --secondary-color: #ff7b9a;
+  --background-start: #1e2024;
+  --background-end: #2d3436;
+  --text-color: #f0f2f5;
+  --white-color: #121212;
+  --shadow-color: rgba(255, 255, 255, 0.1);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  background-image: linear-gradient(to top, var(--background-start) 0%, var(--background-end) 100%);
+  color: var(--text-color);
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><g fill-opacity="0.05"><circle fill="%235e72e4" cx="400" cy="400" r="600"/><circle fill="%23f5365c" cx="400" cy="400" r="500"/><circle fill="%23212529" cx="400" cy="400" r="300"/><circle fill="%23f5f7fa" cx="400" cy="400" r="200"/><circle fill="%23c3cfe2" cx="400" cy="400" r="100"/></g></svg>');
+  opacity: 0.2;
+  z-index: -1;
+}
+
+h1 {
+  color: var(--primary-color);
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 0.5em;
+  text-shadow: 1px 1px 2px var(--shadow-color);
+}
+
+.theme-switcher-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+#theme-switcher {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#theme-switcher:hover {
+  background-color: var(--secondary-color);
+}
+
