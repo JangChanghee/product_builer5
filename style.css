@@ -1,20 +1,20 @@
 :root {
-  --primary-color: #5e72e4;
-  --secondary-color: #f5365c;
-  --background-start: #f5f7fa;
-  --background-end: #c3cfe2;
-  --text-color: #32325d;
+  --primary-color: #ff6b6b;
+  --secondary-color: #feca57;
+  --background-start: #fff1e6;
+  --background-end: #fde2e4;
+  --text-color: #3d405b;
   --white-color: #fff;
-  --shadow-color: rgba(0, 0, 0, 0.15);
+  --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 body[data-theme='dark'] {
-  --primary-color: #889eff;
-  --secondary-color: #ff7b9a;
-  --background-start: #1e2024;
-  --background-end: #2d3436;
+  --primary-color: #ff8e8e;
+  --secondary-color: #ffdf7e;
+  --background-start: #2a2a2a;
+  --background-end: #1a1a1a;
   --text-color: #f0f2f5;
-  --white-color: #121212;
+  --white-color: #333;
   --shadow-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -41,8 +41,8 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><g fill-opacity="0.05"><circle fill="%235e72e4" cx="400" cy="400" r="600"/><circle fill="%23f5365c" cx="400" cy="400" r="500"/><circle fill="%23212529" cx="400" cy="400" r="300"/><circle fill="%23f5f7fa" cx="400" cy="400" r="200"/><circle fill="%23c3cfe2" cx="400" cy="400" r="100"/></g></svg>');
-  opacity: 0.2;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><g fill-opacity="0.05"><circle fill="%23ff6b6b" cx="400" cy="400" r="600"/><circle fill="%23feca57" cx="400" cy="400" r="500"/><circle fill="%233d405b" cx="400" cy="400" r="300"/><circle fill="%23fff1e6" cx="400" cy="400" r="200"/><circle fill="%23fde2e4" cx="400" cy="400" r="100"/></g></svg>');
+  opacity: 0.3;
   z-index: -1;
 }
 
@@ -72,13 +72,5 @@ h1 {
 
 #theme-switcher:hover {
   background-color: var(--secondary-color);
-}
-
-.star-icon-container {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  color: var(--primary-color);
-  transition: color 0.3s;
 }
 

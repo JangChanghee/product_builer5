@@ -1,30 +1,28 @@
-# Lottery Number Generator
+# Lunch Menu Recommendation Service
 
 ## Overview
 
-This is a simple web application that generates lottery numbers. It's built with modern HTML, CSS, and JavaScript, using Web Components for a modular and maintainable structure.
+This is a web application that recommends a lunch menu. It helps users decide what to eat for lunch by suggesting a random menu item with an image. The application is built with modern HTML, CSS, and JavaScript, using Web Components for a modular structure.
 
 ## Features
 
--   **Lottery Number Generation:** Generates a set of 6 unique numbers from 1 to 45.
--   **Responsive Design:** The application is designed to be fully responsive and work on various devices, including desktops, tablets, and mobile phones.
--   **Modern UI:** A clean and modern user interface with animations and a vibrant color scheme.
+-   **Lunch Menu Recommendation:** Suggests a random lunch menu from a predefined list.
+-   **Menu Image Display:** Shows an image of the recommended menu item.
+-   **Responsive Design:** Fully responsive design for use on various devices.
+-   **Modern UI:** A clean and appealing user interface.
 -   **Theme Switching (Dark/Light Mode):** A toggle button allows users to switch between dark and light themes.
--   **Color-Coded Numbers:** The generated lottery numbers are color-coded based on their value.
--   **Web Component:** The entire application is encapsulated within a single `<lotto-generator>` Web Component.
--   **Star Icon:** A decorative star icon is displayed in the top-left corner.
+-   **Web Component:** The application is encapsulated within a `<lunch-recommender>` Web Component.
 
 ## Design
 
--   **Layout:** A simple, centered layout focusing on the main functionality.
--   **Typography:** Clear and readable fonts.
--   **Color Scheme:** A modern and attractive color palette with gradients and a subtle background pattern.
--   **Animations:** The numbers pop in with a subtle animation when they are generated.
--   **Components:** The UI is built with a single Web Component, `lotto-generator`, for encapsulation and reusability.
+-   **Layout:** A card-based layout to display the recommended menu.
+-   **Typography:** Clear and appetizing fonts.
+-   **Color Scheme:** A new color scheme that fits the food theme.
+-   **Animations:** Smooth transitions and animations for a better user experience.
 
 ## File Structure
 
 -   `index.html`: The main HTML file that loads the web component and the theme switcher.
--   `style.css`: Contains the global styles for the application, including the theme variables.
--   `main.js`: Implements the `lotto-generator` web component and the theme switching logic.
+-   `style.css`: Contains the global styles and theme variables.
+-   `main.js`: Implements the `<lunch-recommender>` web component and the theme switching logic.
 -   `blueprint.md`: This file, containing the project documentation.

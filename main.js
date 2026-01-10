@@ -1,63 +1,59 @@
-class LottoGenerator extends HTMLElement {
+class LunchRecommender extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
+    this.menus = [
+      { name: 'Kimchi Jjigae', image: 'https://source.unsplash.com/random/800x600?kimchi,jjigae' },
+      { name: 'Bibimbap', image: 'https://source.unsplash.com/random/800x600?bibimbap' },
+      { name: 'Bulgogi', image: 'https://source.unsplash.com/random/800x600?bulgogi' },
+      { name: 'Japchae', image: 'https://source.unsplash.com/random/800x600?japchae' },
+      { name: 'Tteokbokki', image: 'https://source.unsplash.com/random/800x600?tteokbokki' },
+      { name: 'Kimbap', image: 'https://source.unsplash.com/random/800x600?kimbap' },
+    ];
     this.shadowRoot.innerHTML = `
       <style>
-        @keyframes popIn {
-          0% {
-            opacity: 0;
-            transform: scale(0.5);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .lotto-card {
+        .recommender-card {
           background-color: var(--white-color, #fff);
           border-radius: 20px;
           padding: 2.5rem;
           box-shadow: 0 15px 35px var(--shadow-color, rgba(0, 0, 0, 0.1));
           text-align: center;
-          max-width: 450px;
+          max-width: 400px;
           margin: 0 auto;
           transition: transform 0.3s ease, background-color 0.3s;
-          border: 1px solid rgba(255, 255, 255, 0.5);
         }
-        .lotto-card:hover {
+        .recommender-card:hover {
           transform: translateY(-5px);
         }
         h1 {
-            color: var(--primary-color, #5e72e4);
-            text-align: center;
-            font-size: 2.8rem;
-            margin-bottom: 1em;
-            text-shadow: 1px 1px 2px var(--shadow-color, rgba(0,0,0,0.1));
-            font-weight: 700;
+          color: var(--primary-color, #ff6b6b);
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
         }
-        .numbers {
-          display: flex;
-          justify-content: center;
-          gap: 12px;
-          margin: 2.5rem 0;
+        .menu-display {
+          margin: 2rem 0;
         }
-        .number {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 55px;
-          height: 55px;
-          border-radius: 50%;
-          color: #fff;
-          font-size: 1.6rem;
+        .menu-image {
+          width: 100%;
+          height: 250px;
+          object-fit: cover;
+          border-radius: 15px;
+          box-shadow: 0 8px 20px var(--shadow-color, rgba(0,0,0,0.15));
+          animation: fadeIn 0.8s ease-out;
+        }
+        .menu-name {
+          font-size: 2rem;
           font-weight: bold;
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-          animation: popIn 0.5s ease-out forwards;
-          opacity: 0;
+          margin-top: 1.5rem;
+          color: var(--text-color, #3d405b);
+          animation: fadeIn 0.8s ease-out 0.2s;
         }
         button {
-          background-image: linear-gradient(to right, var(--primary-color, #5e72e4) 0%, var(--secondary-color, #f5365c) 100%);
+          background-image: linear-gradient(to right, var(--primary-color, #ff6b6b) 0%, var(--secondary-color, #feca57) 100%);
           color: var(--white-color, #fff);
           border: none;
           border-radius: 30px;
@@ -65,61 +61,46 @@ class LottoGenerator extends HTMLElement {
           padding: 1rem 2.5rem;
           cursor: pointer;
           transition: all 0.4s ease;
-          box-shadow: 0 8px 25px rgba(94, 114, 228, 0.4);
+          box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
           font-weight: 600;
         }
         button:hover {
-          box-shadow: 0 10px 30px rgba(245, 54, 92, 0.6);
+          box-shadow: 0 10px 30px rgba(254, 202, 87, 0.6);
           transform: translateY(-3px);
         }
         button:active {
             transform: translateY(1px);
-            box-shadow: 0 4px 15px rgba(94, 114, 228, 0.3);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
         }
       </style>
-      <div class="lotto-card">
-        <h1>Lotto Number Generator</h1>
-        <div class="numbers"></div>
-        <button>Generate Numbers</button>
+      <div class="recommender-card">
+        <h1>Today's Lunch</h1>
+        <div class="menu-display">
+          <img class="menu-image" src="" alt="Recommended Menu">
+          <p class="menu-name"></p>
+        </div>
+        <button>Get Recommendation</button>
       </div>
     `;
 
-    this.numbersContainer = this.shadowRoot.querySelector('.numbers');
+    this.imageElement = this.shadowRoot.querySelector('.menu-image');
+    this.nameElement = this.shadowRoot.querySelector('.menu-name');
     this.generateButton = this.shadowRoot.querySelector('button');
-    this.generateButton.addEventListener('click', () => this.generateNumbers());
-    this.generateNumbers();
+
+    this.generateButton.addEventListener('click', () => this.recommendMenu());
+    this.recommendMenu();
   }
 
-  generateNumbers() {
-    const numbers = new Set();
-    while (numbers.size < 6) {
-      numbers.add(Math.floor(Math.random() * 45) + 1);
-    }
-    this.displayNumbers(Array.from(numbers).sort((a, b) => a - b));
-  }
-
-  getBackgroundColor(number) {
-    if (number <= 10) return '#f5c84c'; // yellow
-    if (number <= 20) return '#4caf50'; // green
-    if (number <= 30) return '#f44336'; // red
-    if (number <= 40) return '#2196f3'; // blue
-    return '#9c27b0'; // purple
-  }
-
-  displayNumbers(numbers) {
-    this.numbersContainer.innerHTML = '';
-    numbers.forEach((number, index) => {
-      const numberElement = document.createElement('div');
-      numberElement.className = 'number';
-      numberElement.textContent = number;
-      numberElement.style.backgroundColor = this.getBackgroundColor(number);
-      numberElement.style.animationDelay = `${index * 0.1}s`;
-      this.numbersContainer.appendChild(numberElement);
-    });
+  recommendMenu() {
+    const randomIndex = Math.floor(Math.random() * this.menus.length);
+    const { name, image } = this.menus[randomIndex];
+    this.imageElement.src = image;
+    this.imageElement.alt = name;
+    this.nameElement.textContent = name;
   }
 }
 
-customElements.define('lotto-generator', LottoGenerator);
+customElements.define('lunch-recommender', LunchRecommender);
 
 const themeSwitcher = document.getElementById('theme-switcher');
 themeSwitcher.addEventListener('click', () => {
