@@ -1,20 +1,20 @@
 :root {
-  --primary-color: #ff6b6b;
-  --secondary-color: #feca57;
-  --background-start: #fff1e6;
-  --background-end: #fde2e4;
-  --text-color: #3d405b;
+  --primary-color: #3f51b5;
+  --secondary-color: #ff4081;
+  --background-start: #e8eaf6;
+  --background-end: #c5cae9;
+  --text-color: #212121;
   --white-color: #fff;
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
 body[data-theme='dark'] {
-  --primary-color: #ff8e8e;
-  --secondary-color: #ffdf7e;
-  --background-start: #2a2a2a;
-  --background-end: #1a1a1a;
+  --primary-color: #7986cb;
+  --secondary-color: #ff80ab;
+  --background-start: #282c34;
+  --background-end: #20232a;
   --text-color: #f0f2f5;
-  --white-color: #333;
+  --white-color: #424242;
   --shadow-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -41,7 +41,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><g fill-opacity="0.05"><circle fill="%23ff6b6b" cx="400" cy="400" r="600"/><circle fill="%23feca57" cx="400" cy="400" r="500"/><circle fill="%233d405b" cx="400" cy="400" r="300"/><circle fill="%23fff1e6" cx="400" cy="400" r="200"/><circle fill="%23fde2e4" cx="400" cy="400" r="100"/></g></svg>');
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800"><g fill-opacity="0.05"><circle fill="%233f51b5" cx="400" cy="400" r="600"/><circle fill="%23ff4081" cx="400" cy="400" r="500"/><circle fill="%23e8eaf6" cx="400" cy="400" r="300"/><circle fill="%23c5cae9" cx="400" cy="400" r="200"/><circle fill="%23212121" cx="400" cy="400" r="100"/></g></svg>');
   opacity: 0.3;
   z-index: -1;
 }
@@ -62,7 +62,7 @@ h1 {
 
 #theme-switcher {
   background-color: var(--primary-color);
-  color: var(--white-color);
+  color: #fff;
   border: none;
   border-radius: 20px;
   padding: 10px 20px;

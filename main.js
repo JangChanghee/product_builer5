@@ -1,106 +1,125 @@
-class LunchRecommender extends HTMLElement {
+class AnimalClassifier extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: 'open' });
-    this.menus = [
-      { name: 'Kimchi Jjigae', image: 'https://source.unsplash.com/random/800x600?kimchi,jjigae' },
-      { name: 'Bibimbap', image: 'https://source.unsplash.com/random/800x600?bibimbap' },
-      { name: 'Bulgogi', image: 'https://source.unsplash.com/random/800x600?bulgogi' },
-      { name: 'Japchae', image: 'https://source.unsplash.com/random/800x600?japchae' },
-      { name: 'Tteokbokki', image: 'https://source.unsplash.com/random/800x600?tteokbokki' },
-      { name: 'Kimbap', image: 'https://source.unsplash.com/random/800x600?kimbap' },
-    ];
     this.shadowRoot.innerHTML = `
       <style>
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .recommender-card {
+        .classifier-card {
           background-color: var(--white-color, #fff);
           border-radius: 20px;
           padding: 2.5rem;
           box-shadow: 0 15px 35px var(--shadow-color, rgba(0, 0, 0, 0.1));
           text-align: center;
-          max-width: 400px;
+          max-width: 500px;
           margin: 0 auto;
           transition: transform 0.3s ease, background-color 0.3s;
         }
-        .recommender-card:hover {
-          transform: translateY(-5px);
-        }
         h1 {
-          color: var(--primary-color, #ff6b6b);
+          color: var(--primary-color, #3f51b5);
           font-size: 2.5rem;
           margin-bottom: 1rem;
         }
-        .menu-display {
-          margin: 2rem 0;
-        }
-        .menu-image {
-          width: 100%;
-          height: 250px;
-          object-fit: cover;
-          border-radius: 15px;
+        #webcam-container {
+          margin: 2rem auto;
+          width: 200px;
+          height: 200px;
+          border-radius: 10px;
+          overflow: hidden;
           box-shadow: 0 8px 20px var(--shadow-color, rgba(0,0,0,0.15));
-          animation: fadeIn 0.8s ease-out;
         }
-        .menu-name {
-          font-size: 2rem;
-          font-weight: bold;
+        #label-container {
           margin-top: 1.5rem;
-          color: var(--text-color, #3d405b);
-          animation: fadeIn 0.8s ease-out 0.2s;
+          font-size: 1.5rem;
+          font-weight: bold;
         }
         button {
-          background-image: linear-gradient(to right, var(--primary-color, #ff6b6b) 0%, var(--secondary-color, #feca57) 100%);
-          color: var(--white-color, #fff);
+          background-image: linear-gradient(to right, var(--primary-color, #3f51b5) 0%, var(--secondary-color, #ff4081) 100%);
+          color: #fff;
           border: none;
           border-radius: 30px;
           font-size: 1.3rem;
           padding: 1rem 2.5rem;
           cursor: pointer;
           transition: all 0.4s ease;
-          box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+          box-shadow: 0 8px 25px rgba(63, 81, 181, 0.4);
           font-weight: 600;
+          margin-top: 1rem;
         }
         button:hover {
-          box-shadow: 0 10px 30px rgba(254, 202, 87, 0.6);
+          box-shadow: 0 10px 30px rgba(255, 64, 129, 0.6);
           transform: translateY(-3px);
         }
-        button:active {
-            transform: translateY(1px);
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        .error-message {
+          color: var(--secondary-color, #ff4081);
+          margin-top: 1rem;
         }
       </style>
-      <div class="recommender-card">
-        <h1>Today's Lunch</h1>
-        <div class="menu-display">
-          <img class="menu-image" src="" alt="Recommended Menu">
-          <p class="menu-name"></p>
-        </div>
-        <button>Get Recommendation</button>
+      <div class="classifier-card">
+        <h1>Animal Face Test</h1>
+        <div id="webcam-container"></div>
+        <div id="label-container"></div>
+        <button id="start-button">Start</button>
+        <div id="error-message" class="error-message"></div>
       </div>
     `;
 
-    this.imageElement = this.shadowRoot.querySelector('.menu-image');
-    this.nameElement = this.shadowRoot.querySelector('.menu-name');
-    this.generateButton = this.shadowRoot.querySelector('button');
-
-    this.generateButton.addEventListener('click', () => this.recommendMenu());
-    this.recommendMenu();
+    this.startButton = this.shadowRoot.getElementById('start-button');
+    this.webcamContainer = this.shadowRoot.getElementById('webcam-container');
+    this.labelContainer = this.shadowRoot.getElementById('label-container');
+    this.errorMessage = this.shadowRoot.getElementById('error-message');
+    this.startButton.addEventListener('click', () => this.init());
   }
 
-  recommendMenu() {
-    const randomIndex = Math.floor(Math.random() * this.menus.length);
-    const { name, image } = this.menus[randomIndex];
-    this.imageElement.src = image;
-    this.imageElement.alt = name;
-    this.nameElement.textContent = name;
+  async init() {
+    this.startButton.style.display = 'none';
+    const URL = './my_model/';
+    const modelURL = URL + 'model.json';
+    const metadataURL = URL + 'metadata.json';
+
+    let model, webcam, maxPredictions;
+
+    try {
+      model = await tmImage.load(modelURL, metadataURL);
+      maxPredictions = model.getTotalClasses();
+
+      const flip = true;
+      webcam = new tmImage.Webcam(200, 200, flip);
+      await webcam.setup();
+      await webcam.play();
+      window.requestAnimationFrame(loop);
+
+      this.webcamContainer.appendChild(webcam.canvas);
+      this.labelContainer.innerHTML = '';
+      for (let i = 0; i < maxPredictions; i++) {
+        this.labelContainer.appendChild(document.createElement('div'));
+      }
+    } catch (e) {
+      console.error(e);
+      this.errorMessage.textContent = 'Could not load model. Please make sure the model files are in the /my_model directory.';
+      this.startButton.style.display = 'block';
+      return;
+    }
+
+    async function loop() {
+      webcam.update();
+      await predict();
+      window.requestAnimationFrame(loop);
+    }
+
+    async function predict() {
+      const prediction = await model.predict(webcam.canvas);
+      for (let i = 0; i < maxPredictions; i++) {
+        const classPrediction =
+          prediction[i].className + ': ' + prediction[i].probability.toFixed(2);
+        this.labelContainer.childNodes[i].innerHTML = classPrediction;
+      }
+    }
+    // Re-bind `this` for the predict function to have access to the component's `labelContainer`
+    predict = predict.bind(this);
   }
 }
 
-customElements.define('lunch-recommender', LunchRecommender);
+customElements.define('animal-classifier', AnimalClassifier);
 
 const themeSwitcher = document.getElementById('theme-switcher');
 themeSwitcher.addEventListener('click', () => {
