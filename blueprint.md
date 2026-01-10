@@ -12,6 +12,7 @@ This is a simple web application that generates lottery numbers. It's built with
 -   **Theme Switching (Dark/Light Mode):** A toggle button allows users to switch between dark and light themes.
 -   **Color-Coded Numbers:** The generated lottery numbers are color-coded based on their value.
 -   **Web Component:** The entire application is encapsulated within a single `<lotto-generator>` Web Component.
+-   **Star Icon:** A decorative star icon is displayed in the top-left corner.
 
 ## Design
 
