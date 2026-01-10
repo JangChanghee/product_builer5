@@ -74,3 +74,29 @@ h1 {
   background-color: var(--secondary-color);
 }
 
+.main-container {
+  background-color: var(--white-color);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 15px 35px var(--shadow-color);
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+  transition: background-color 0.3s;
+}
+
+#webcam-container {
+  margin: 2rem auto;
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+#label-container {
+  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
