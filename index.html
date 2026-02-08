@@ -1,55 +1,141 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Animal Face Test</title>
+  <title>Animal Face Test & Lunch Menu</title>
   <link href='/style.css' rel='stylesheet'>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
   <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-F923WSVEXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-F923WSVEXX');
-</script>
-<script type="text/javascript">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-F923WSVEXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-F923WSVEXX');
+  </script>
+  <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
         t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
         y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
     })(window, document, "clarity", "script", "v2pz6hntx6");
-</script>
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 </head>
 <body>
   <header>
     <nav>
+      <a href="index.html" class="nav-logo">FunTest</a>
       <ul>
-        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html" class="active">Home</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="privacy.html">Privacy</a></li>
       </ul>
+      <button id="theme-switcher" aria-label="Toggle theme">
+        <span class="theme-icon light-icon">&#9790;</span>
+        <span class="theme-icon dark-icon">&#9728;</span>
+      </button>
     </nav>
   </header>
-  <div class="theme-switcher-container">
-    <button id="theme-switcher">Toggle Theme</button>
-  </div>
-  <div class="main-container">
-    <h1>Animal Face Test</h1>
 
-    <!-- Ad placeholder - Replace with your ad unit code -->
-    <div class="ad-placeholder">
-      Ad
+  <main>
+    <!-- Tab Navigation -->
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="animal-test">
+        <span class="tab-emoji">&#129445;</span>
+        Animal Face Test
+      </button>
+      <button class="tab-btn" data-tab="lunch-menu">
+        <span class="tab-emoji">&#127837;</span>
+        Lunch Menu
+      </button>
     </div>
 
-    <button type="button" onclick="init()">Start</button>
-    <div id="webcam-container"></div>
-    <div id="label-container"></div>
-  </div>
+    <!-- Animal Face Test Section -->
+    <section id="animal-test" class="tab-content active">
+      <div class="card">
+        <div class="card-header">
+          <h1>&#128062; Animal Face Test</h1>
+          <p class="subtitle">AI analyzes your face to find your animal doppelganger!</p>
+        </div>
+        <div class="card-body">
+          <button type="button" class="btn-primary" onclick="init()">
+            <span>&#127909;</span> Start Camera
+          </button>
+          <div id="webcam-container"></div>
+          <div id="label-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lunch Menu Section -->
+    <section id="lunch-menu" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <h1>&#127837; Lunch Menu</h1>
+          <p class="subtitle">Pick a category or spin the wheel for today's lunch!</p>
+        </div>
+        <div class="card-body">
+          <div class="category-grid">
+            <button class="category-btn" data-category="korean" onclick="selectCategory('korean')">
+              <span class="cat-emoji">&#127836;</span>
+              <span class="cat-label">Korean</span>
+            </button>
+            <button class="category-btn" data-category="chinese" onclick="selectCategory('chinese')">
+              <span class="cat-emoji">&#129379;</span>
+              <span class="cat-label">Chinese</span>
+            </button>
+            <button class="category-btn" data-category="japanese" onclick="selectCategory('japanese')">
+              <span class="cat-emoji">&#127843;</span>
+              <span class="cat-label">Japanese</span>
+            </button>
+            <button class="category-btn" data-category="western" onclick="selectCategory('western')">
+              <span class="cat-emoji">&#127829;</span>
+              <span class="cat-label">Western</span>
+            </button>
+            <button class="category-btn" data-category="snack" onclick="selectCategory('snack')">
+              <span class="cat-emoji">&#127839;</span>
+              <span class="cat-label">Snack</span>
+            </button>
+            <button class="category-btn" data-category="healthy" onclick="selectCategory('healthy')">
+              <span class="cat-emoji">&#129388;</span>
+              <span class="cat-label">Healthy</span>
+            </button>
+          </div>
+
+          <div class="divider">
+            <span>OR</span>
+          </div>
+
+          <button class="btn-primary btn-spin" onclick="spinRandom()">
+            <span>&#127922;</span> Random Pick!
+          </button>
+
+          <div id="menu-result" class="menu-result hidden">
+            <div class="result-card">
+              <span id="result-emoji" class="result-emoji"></span>
+              <h2 id="result-menu"></h2>
+              <p id="result-desc" class="result-desc"></p>
+              <button class="btn-secondary" onclick="reroll()">
+                &#128260; Try Again
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Ad placeholder -->
+    <div class="ad-placeholder">
+      <span>Ad</span>
+    </div>
+  </main>
+
   <script defer type="text/javascript" src="/main.js"></script>
 </body>
 </html>
